@@ -6,7 +6,11 @@ import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
-const galleryImages = {
+const galleryImages: Record<string, {
+  title: string;
+  description: string;
+  images: string[];
+}[]> = {
   "2024": [
     {
       title: "Annual Day Celebration",
@@ -81,17 +85,17 @@ const galleryImages = {
 const years = Object.keys(galleryImages).sort((a, b) => b.localeCompare(a))
 
 export default function Gallery() {
-  const [selectedYear, setSelectedYear] = useState(years[0])
-  const [currentImageIndexes, setCurrentImageIndexes] = useState({})
+  const [selectedYear, setSelectedYear] = useState<string>(years[0])
+  const [currentImageIndexes, setCurrentImageIndexes] = useState<Record<number, number>>({})
 
-  const nextImage = (eventIndex) => {
+  const nextImage = (eventIndex: number) => {
     setCurrentImageIndexes(prev => ({
       ...prev,
       [eventIndex]: ((prev[eventIndex] || 0) + 1) % galleryImages[selectedYear][eventIndex].images.length
     }))
   }
 
-  const prevImage = (eventIndex) => {
+  const prevImage = (eventIndex: number) => {
     setCurrentImageIndexes(prev => ({
       ...prev,
       [eventIndex]: ((prev[eventIndex] || 0) - 1 + galleryImages[selectedYear][eventIndex].images.length) % galleryImages[selectedYear][eventIndex].images.length
